@@ -52,20 +52,20 @@ def register():
     
 @app.route("/login", methods =["GET", "POST"])
 def login():
+    erro = ""
     if request.method == "POST":
         nome = request.form.get("nome", "")#Faço o get no form pelo name "nome"
         idade = request.form.get("idade", "")#Faço o get no form pelo name "idade"
+        erro = "Erro: nome ou idade inválidos"
         if nome != "" and idade != "":
             with open(JSON, "r", encoding="utf-8") as f:
                 usuarios = json.load(f)
 
             for i in usuarios:
                 if i["nome"] == nome and i["idade"] == idade:
-                    return redirect(url_for("home", nome=nome, idade=idade))
-            
-            return redirect(url_for("login"))
+                    return redirect(url_for("home", nome=nome, idade=idade))               
 
-    return render_template("login.html")
+    return render_template("login.html", erro=erro)
 
 @app.route("/home")
 def home():
