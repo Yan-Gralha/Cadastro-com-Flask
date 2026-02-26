@@ -1,7 +1,10 @@
+import json
+import os
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+JSON = "users.json"
 
 @app.route("/")
 def index():
@@ -13,8 +16,42 @@ def register():
         nome = request.form.get("nome", "")#Faço o get no form pelo name "nome"
         idade = request.form.get("idade", "")#Faço o get no form pelo name "idade"
         # Passa as variáveis via URL
-        return redirect(url_for("home", nome=nome, idade=idade))
+        
+        if nome != "" and idade != "":
+           
+                
+            # Se o arquivo não existir, cria com lista vazia
+            if not os.path.exists(JSON):
+                with open(JSON, "w", encoding="utf-8") as f:
+                    json.dump([], f)
+
+            # Lê os dados existentes
+            with open(JSON, "r", encoding="utf-8") as f:
+                usuarios = json.load(f)
+
+            # Gera ID único
+            if usuarios == True:
+                novo_id = max(u["id"] for u in usuarios) + 1
+            else:
+                novo_id = 1
+
+            novo_usuario = {
+                "id": novo_id,
+                "nome": nome,
+                "idade": idade
+            }
+            
+            # Adiciona novo usuário
+            usuarios.append(novo_usuario)
+
+            # Salva novamente no arquivo
+            with open(JSON, "w", encoding="utf-8") as f:
+                json.dump(usuarios, f, ensure_ascii=False, indent=4)
+
+            return redirect(url_for("home", nome=nome, idade=idade))
+
     return render_template("register.html")#se for GET, ou seja, apenas abrir a página, mostra o formulário HTML
+    
 
 @app.route("/home")
 def home():

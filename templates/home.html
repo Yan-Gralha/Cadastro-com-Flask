@@ -8,7 +8,7 @@
 <body>
     <h1>Olá, {{ nome or "visitante" }}</h1>
     <p>Sua idade é {{ idade or "não informada" }}</p>
-    <form action="{{ url_for('home') }}" method="get">
+    <form action="{{ url_for('index') }}" method="get">
         <button type="submit">Voltar para Início</button>
     </form>
 </body>
