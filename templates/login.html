@@ -2,27 +2,41 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Meu site</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login | Biblioteca Digital</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_login.css') }}">
 </head>
 <body>
-    <h1>Login</h1>
 
-    <form method="POST">
-        <input type="text" name="nome" placeholder="Digite seu nome" >
-        <br>
-        <br>
-        <input type="number" name="idade" placeholder="Digite sua idade">
-        <br>
-        <br>
-        <button type="submit">Logar</button>
+<header>
+    <h1>Biblioteca Digital</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Início</a>
+        <a href="{{ url_for('register') }}">Cadastrar</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Entrar</h2>
+    <p>Acesse sua biblioteca digital.</p>
+
+    <form method="POST" class="form-box">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="number" name="idade" placeholder="Idade" required>
+        <button type="submit">Entrar</button>
     </form>
-    <br><br>
+
+    {% if erro %}
+    <p class="error-msg">{{ erro }}</p>
+    {% endif %}
+
     <form action="{{ url_for('index') }}" method="get">
-        <button type="submit">Voltar para Início</button>
+        <button class="secondary-btn" type="submit">Voltar para Início</button>
     </form>
-    <p style="color: red;">
-    {{ erro }}
-    </p>
+</section>
+
+<footer>
+    <p>© 2026 Biblioteca Digital • Projeto educacional</p>
+</footer>
+
 </body>
 </html>
